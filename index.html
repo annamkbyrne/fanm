@@ -1,16 +1,28 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="system">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Daily Quotes</title>
   <meta name="description" content="Inspirational quotes, powered by ZenQuotes." />
   <link rel="stylesheet" href="style.css" />
+  <script>
+    // Apply the saved theme before the page paints to avoid a flash
+    try { document.documentElement.dataset.theme = localStorage.getItem("theme") || "system"; } catch {}
+  </script>
 </head>
 <body>
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
   <div class="blob blob-3"></div>
+
+  <div class="theme-toggle" role="group" aria-label="Theme">
+    <button data-theme-option="light">Light</button>
+    <button data-theme-option="dark">Dark</button>
+    <button data-theme-option="system">System</button>
+  </div>
+
+  <h1 id="greeting" class="greeting">Hello, Précindy</h1>
 
   <main class="card">
     <p class="eyebrow">Today's quote</p>

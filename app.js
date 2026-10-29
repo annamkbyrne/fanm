@@ -13,6 +13,24 @@ const quote = document.getElementById("quote");
 const author = document.getElementById("author");
 const newBtn = document.getElementById("new");
 const copyBtn = document.getElementById("copy");
+const greeting = document.getElementById("greeting");
+const themeButtons = document.querySelectorAll("[data-theme-option]");
+
+const NAME = "Précindy";
+
+function greet() {
+  const hour = new Date().getHours();
+  const part = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+  greeting.textContent = `${part}, ${NAME}`;
+}
+
+function setTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  themeButtons.forEach((btn) => btn.setAttribute("aria-pressed", btn.dataset.themeOption === theme));
+  try { localStorage.setItem("theme", theme); } catch {}
+}
+
+themeButtons.forEach((btn) => btn.addEventListener("click", () => setTheme(btn.dataset.themeOption)));
 
 async function getQuote() {
   try {
@@ -50,4 +68,6 @@ copyBtn.addEventListener("click", async () => {
 });
 
 newBtn.addEventListener("click", showQuote);
+setTheme(document.documentElement.dataset.theme || "system");
+greet();
 showQuote();

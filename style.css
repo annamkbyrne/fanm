@@ -1,16 +1,80 @@
 * { box-sizing: border-box; margin: 0; }
 
+/* Dark theme (default) */
+:root {
+  --text: #fff;
+  --bg: linear-gradient(135deg, #1e1b4b 0%, #312e81 45%, #0f766e 100%);
+  --blob-1: #ec4899;
+  --blob-2: #38bdf8;
+  --blob-3: #a78bfa;
+  --blob-opacity: 0.7;
+  --glass: rgba(255, 255, 255, 0.12);
+  --glass-hover: rgba(255, 255, 255, 0.22);
+  --glass-border: rgba(255, 255, 255, 0.25);
+  --glass-shine: rgba(255, 255, 255, 0.35);
+  --shadow: rgba(0, 0, 0, 0.25);
+  --primary-bg: rgba(255, 255, 255, 0.9);
+  --primary-bg-hover: #fff;
+  --primary-text: #312e81;
+  --toggle-active: rgba(255, 255, 255, 0.85);
+  --toggle-active-text: #312e81;
+  color-scheme: dark;
+}
+
+/* Light theme: chosen explicitly, or via "System" when the OS is light */
+:root[data-theme="light"] {
+  --text: #1e1b4b;
+  --bg: linear-gradient(135deg, #fdf2f8 0%, #e0e7ff 50%, #ccfbf1 100%);
+  --blob-1: #f9a8d4;
+  --blob-2: #7dd3fc;
+  --blob-3: #c4b5fd;
+  --blob-opacity: 0.8;
+  --glass: rgba(255, 255, 255, 0.45);
+  --glass-hover: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-shine: rgba(255, 255, 255, 0.9);
+  --shadow: rgba(49, 46, 129, 0.15);
+  --primary-bg: #4338ca;
+  --primary-bg-hover: #3730a3;
+  --primary-text: #fff;
+  --toggle-active: rgba(255, 255, 255, 0.95);
+  --toggle-active-text: #312e81;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] {
+    --text: #1e1b4b;
+    --bg: linear-gradient(135deg, #fdf2f8 0%, #e0e7ff 50%, #ccfbf1 100%);
+    --blob-1: #f9a8d4;
+    --blob-2: #7dd3fc;
+    --blob-3: #c4b5fd;
+    --blob-opacity: 0.8;
+    --glass: rgba(255, 255, 255, 0.45);
+    --glass-hover: rgba(255, 255, 255, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.7);
+    --glass-shine: rgba(255, 255, 255, 0.9);
+    --shadow: rgba(49, 46, 129, 0.15);
+    --primary-bg: #4338ca;
+    --primary-bg-hover: #3730a3;
+    --primary-text: #fff;
+    --toggle-active: rgba(255, 255, 255, 0.95);
+    --toggle-active-text: #312e81;
+    color-scheme: light;
+  }
+}
+
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 24px 16px;
+  padding: 80px 16px 24px;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  color: #fff;
-  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 45%, #0f766e 100%);
-  overflow: hidden;
+  color: var(--text);
+  background: var(--bg);
+  background-attachment: fixed;
+  overflow-x: hidden;
 }
 
 /* Soft floating color blobs behind the glass */
@@ -18,16 +82,57 @@ body {
   position: fixed;
   border-radius: 50%;
   filter: blur(60px);
-  opacity: 0.7;
+  opacity: var(--blob-opacity);
   animation: float 18s ease-in-out infinite alternate;
   z-index: -1;
 }
-.blob-1 { width: 380px; height: 380px; background: #ec4899; top: -80px; left: -60px; }
-.blob-2 { width: 320px; height: 320px; background: #38bdf8; bottom: -60px; right: -40px; animation-delay: -6s; }
-.blob-3 { width: 260px; height: 260px; background: #a78bfa; top: 40%; left: 55%; animation-delay: -12s; }
+.blob-1 { width: 380px; height: 380px; background: var(--blob-1); top: -80px; left: -60px; }
+.blob-2 { width: 320px; height: 320px; background: var(--blob-2); bottom: -60px; right: -40px; animation-delay: -6s; }
+.blob-3 { width: 260px; height: 260px; background: var(--blob-3); top: 40%; left: 55%; animation-delay: -12s; }
 
 @keyframes float {
   to { transform: translate(40px, -30px) scale(1.1); }
+}
+
+/* Light / Dark / System segmented control */
+.theme-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  padding: 4px;
+  gap: 2px;
+  border-radius: 999px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 24px var(--shadow);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+.theme-toggle button {
+  padding: 6px 14px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.theme-toggle button[aria-pressed="true"] {
+  background: var(--toggle-active);
+  color: var(--toggle-active-text);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.greeting {
+  margin-bottom: 20px;
+  font-size: clamp(26px, 6vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-align: center;
 }
 
 .card {
@@ -36,9 +141,9 @@ body {
   padding: 40px 32px;
   text-align: center;
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 20px 60px var(--shadow), inset 0 1px 0 var(--glass-shine);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
 }
@@ -81,25 +186,26 @@ blockquote.fade, .author.fade { opacity: 0; }
   font: inherit;
   font-size: 15px;
   font-weight: 600;
-  color: #fff;
+  color: var(--text);
   cursor: pointer;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transition: transform 0.15s ease, background 0.2s ease;
 }
-.btn:hover { background: rgba(255, 255, 255, 0.22); }
+.btn:hover { background: var(--glass-hover); }
 .btn:active { transform: scale(0.96); }
 .btn:disabled { opacity: 0.5; cursor: default; }
-.btn.primary { background: rgba(255, 255, 255, 0.9); color: #312e81; }
-.btn.primary:hover { background: #fff; }
+.btn.primary { background: var(--primary-bg); color: var(--primary-text); border-color: transparent; }
+.btn.primary:hover { background: var(--primary-bg-hover); }
 
 footer {
   margin-top: 24px;
   font-size: 13px;
   opacity: 0.7;
+  text-align: center;
 }
 footer a { color: inherit; }
 
