@@ -1,0 +1,9 @@
+[build]
+  publish = "."
+
+# Proxy the affirmations.dev API so the browser avoids CORS errors
+[[redirects]]
+  from = "/api/affirmation"
+  to = "https://www.affirmations.dev/"
+  status = 200
+  force = true
