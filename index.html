@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Affirmations</title>
-  <meta name="description" content="A daily dose of kindness, powered by affirmations.dev." />
+  <title>Daily Quotes</title>
+  <meta name="description" content="Inspirational quotes, powered by ZenQuotes." />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -13,15 +13,16 @@
   <div class="blob blob-3"></div>
 
   <main class="card">
-    <p class="eyebrow">Today's affirmation</p>
-    <blockquote id="affirmation" aria-live="polite">Loading…</blockquote>
+    <p class="eyebrow">Today's quote</p>
+    <blockquote id="quote" aria-live="polite">Loading…</blockquote>
+    <p id="author" class="author"></p>
     <div class="actions">
-      <button id="new" class="btn primary">New affirmation</button>
+      <button id="new" class="btn primary">New quote</button>
       <button id="copy" class="btn">Copy</button>
     </div>
   </main>
 
-  <footer>Powered by <a href="https://www.affirmations.dev" target="_blank" rel="noopener">affirmations.dev</a></footer>
+  <footer>Inspirational quotes provided by <a href="https://zenquotes.io/" target="_blank" rel="noopener">ZenQuotes API</a></footer>
 
   <script src="app.js"></script>
 </body>
